@@ -86,19 +86,19 @@ const TeacherDashboard = () => {
             <div className="flex items-center justify-between mb-8">
               <div>
                 <h3 className="text-xl font-black text-white tracking-tight italic">Engagement Trends</h3>
-                <p className="text-xs text-slate-500 uppercase font-black tracking-widest mt-1">Activity per week</p>
+                <p className="text-xs text-slate-500 uppercase font-black tracking-widest mt-1">Recent Activity volume</p>
               </div>
             </div>
             <div className="h-[350px]">
               <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={[
-                  { name: 'Mon', activity: 40 },
-                  { name: 'Tue', activity: 65 },
-                  { name: 'Wed', activity: 45 },
-                  { name: 'Thu', activity: 90 },
-                  { name: 'Fri', activity: 120 },
-                  { name: 'Sat', activity: 80 },
-                  { name: 'Sun', activity: 100 },
+                <AreaChart data={stats?.trends || [
+                  { name: 'Day 1', activity: 10 },
+                  { name: 'Day 2', activity: 25 },
+                  { name: 'Day 3', activity: 15 },
+                  { name: 'Day 4', activity: 40 },
+                  { name: 'Day 5', activity: 30 },
+                  { name: 'Day 6', activity: 60 },
+                  { name: 'Day 7', activity: 45 },
                 ]}>
                   <defs>
                     <linearGradient id="colorActivity" x1="0" y1="0" x2="0" y2="1">

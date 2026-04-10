@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL:"https://gamified-environmental-education-w0n5.onrender.com/api"
-  //baseURL: 'http://localhost:5000/api',
+  //baseURL: "http://localhost:7000/api",
 });
 
 // Add a request interceptor to attach token

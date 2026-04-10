@@ -41,9 +41,15 @@ const QuizModal = ({ onClose, onSuccess, quiz = null }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const invalid = formData.questions.some(q => !q.question || q.options.some(o => !o) || !q.correctAnswer);
-    if (invalid) {
+    const hasEmptyFields = formData.questions.some(q => !q.question || q.options.some(o => !o));
+    const hasMissingCorrectAnswer = formData.questions.some(q => !q.correctAnswer);
+
+    if (hasEmptyFields) {
       toast.error('Please fill in all questions and options');
+      return;
+    }
+    if (hasMissingCorrectAnswer) {
+      toast.error('Please select a correct answer for each question');
       return;
     }
 
