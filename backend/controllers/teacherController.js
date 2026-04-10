@@ -21,7 +21,21 @@ export const getTeacherDashboardStats = async (req, res) => {
     const totalQuizzesCompleted = await QuizResult.countDocuments({});
     const totalMissionsSubmitted = await Submission.countDocuments({ status: 'Pending' });
 
-    // 2. Activity Trends (Mocking for now based on recent logs)
+    // 2. Activity Trends (Calculating real volume from logs)
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const submissions = await Submission.find({ createdAt: { $gte: sevenDaysAgo } });
+    const quizResults = await QuizResult.find({ createdAt: { $gte: sevenDaysAgo } });
+
+    // Group by day
+    const trends = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+      const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
+      const count = submissions.filter(s => new Date(s.createdAt).toDateString() === date.toDateString()).length +
+                    quizResults.filter(q => new Date(q.createdAt).toDateString() === date.toDateString()).length;
+      trends.push({ name: dayName, activity: count });
+    }
+
     const recentSubmissions = await Submission.find({})
       .populate('userId', 'name avatar')
       .populate('missionId', 'title')
@@ -39,7 +53,8 @@ export const getTeacherDashboardStats = async (req, res) => {
         totalStudents,
         activeStudents,
         totalQuizzesCompleted,
-        totalMissionsSubmitted
+        totalMissionsSubmitted,
+        trends
       },
       recentActivity: {
         submissions: recentSubmissions,

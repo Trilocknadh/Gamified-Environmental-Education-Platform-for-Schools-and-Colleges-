@@ -28,7 +28,7 @@ export const createMaterial = async (req, res) => {
     // Handle file uploads if present
     if (req.files) {
       if (req.files.file && req.files.file[0]) {
-        materialData.url = `/uploads/${req.files.file[0].filename}`;
+        materialData.fileUrl = `/uploads/${req.files.file[0].filename}`;
       }
       if (req.files.thumbnail && req.files.thumbnail[0]) {
         materialData.thumbnail = `/uploads/${req.files.thumbnail[0].filename}`;

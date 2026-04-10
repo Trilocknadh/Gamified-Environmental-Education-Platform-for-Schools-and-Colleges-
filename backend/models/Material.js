@@ -21,7 +21,7 @@ const materialSchema = new mongoose.Schema({
   },
   gradeLevel: {
     type: String,
-    enum: ['6', '7', '8', '9', '10', '11', '12', 'BTech', 'Degree'],
+    enum: ['6', '7', '8', '9', '10', '11', '12', 'BTech', 'Degree', 'Global'],
     required: true,
   },
   type: {
