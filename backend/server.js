@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import cors from 'cors';
 import mongoose from 'mongoose';
 import path from 'path';
@@ -19,7 +20,7 @@ import materialRoutes from './routes/materialRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import feedbackRoutes from './routes/feedbackRoutes.js';
 
-dotenv.config();
+
 
 const app = express();
 
@@ -46,8 +47,9 @@ app.use('/api/feedback', feedbackRoutes);
 
 
 // Database connection
+console.log("Mongo URI being used:", process.env.MONGO_URI);
 mongoose
-  .connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ecoedu')
+  .connect(process.env.MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
