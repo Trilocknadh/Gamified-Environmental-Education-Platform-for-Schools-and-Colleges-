@@ -41,9 +41,9 @@ const Register = () => {
     setLoading(true);
     try {
       const { data } = await api.post('/auth/register', formData);
-      setAuth(data.user, data.token);
+      setAuth(data, data.token);
       toast.success('Welcome to EcoEdu!');
-      navigate(data.user.role === 'Student' ? '/dashboard' : '/teacher/dashboard');
+      navigate(data.role === 'Student' ? '/dashboard' : '/teacher/dashboard');
     } catch (error: any) {
       const errorMsg = error.response?.data?.message || 
                        error.response?.data?.errors?.[0]?.msg || 
