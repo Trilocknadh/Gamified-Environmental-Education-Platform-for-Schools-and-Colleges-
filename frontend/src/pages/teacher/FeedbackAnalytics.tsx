@@ -67,7 +67,7 @@ const FeedbackAnalytics = () => {
           </div>
           <div>
              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Avg Class Level</p>
-             <h4 className="text-2xl font-black text-white italic">{data?.summary?.avgLevel || '4.2'}</h4>
+             <h4 className="text-2xl font-black text-white italic">{data?.summary?.avgLevel || '0'}</h4>
           </div>
         </motion.div>
 
@@ -82,7 +82,7 @@ const FeedbackAnalytics = () => {
           </div>
           <div>
              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Total Class XP</p>
-             <h4 className="text-2xl font-black text-white italic">{data?.summary?.totalXP?.toLocaleString() || '12,450'}</h4>
+             <h4 className="text-2xl font-black text-white italic">{data?.summary?.totalXP?.toLocaleString() || '0'}</h4>
           </div>
         </motion.div>
 
@@ -192,6 +192,11 @@ const FeedbackAnalytics = () => {
                   />
                 </PieChart>
               </ResponsiveContainer>
+              {(!data?.participationDist || data.participationDist.every(d => d.value === 0)) && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <p className="text-[10px] text-slate-600 font-bold uppercase tracking-widest">No Activity Recorded</p>
+                </div>
+              )}
             </div>
             <div className="flex flex-col gap-4 w-full md:w-48">
                {(data?.participationDist || []).map((item: any, idx: number) => (

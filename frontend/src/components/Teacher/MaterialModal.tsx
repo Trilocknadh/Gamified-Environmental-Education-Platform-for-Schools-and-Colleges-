@@ -9,8 +9,7 @@ const MaterialModal = ({ onClose, onSuccess }) => {
     subject: 'General',
     gradeLevel: 'Global',
     type: 'PDF',
-    category: 'Academic',
-    description: ''
+    category: 'Academic'
   });
   const [file, setFile] = useState<File | null>(null);
   const [thumbnail, setThumbnail] = useState<File | null>(null);
@@ -30,7 +29,6 @@ const MaterialModal = ({ onClose, onSuccess }) => {
     data.append('gradeLevel', formData.gradeLevel);
     data.append('type', formData.type);
     data.append('category', formData.category);
-    data.append('description', formData.description);
     data.append('file', file);
     if (thumbnail) {
       data.append('thumbnail', thumbnail);
@@ -71,15 +69,6 @@ const MaterialModal = ({ onClose, onSuccess }) => {
                 onChange={(e) => setFormData({...formData, title: e.target.value})}
                 className="w-full bg-slate-950/50 border border-white/[0.05] rounded-xl px-4 py-3 text-white focus:border-blue-500/50 outline-none font-bold"
                 placeholder="e.g. Quantum Physics Intro"
-              />
-            <div className="space-y-2">
-              <label className="text-[10px] font-black text-slate-600 uppercase tracking-widest">Description</label>
-              <textarea 
-                required
-                value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                className="w-full bg-slate-950/50 border border-white/[0.05] rounded-xl px-4 py-3 text-white focus:border-blue-500/50 outline-none font-bold h-24"
-                placeholder="Briefly describe this resource..."
               />
            </div>
 

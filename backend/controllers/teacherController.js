@@ -102,7 +102,7 @@ export const getTeacherAnalytics = async (req, res) => {
     const totalStudents = students.length || 1;
 
     // 1. Subject Mastery (Normalized 0-100)
-    const subjects = ['Mathematics', 'Physics', 'Chemistry', 'Environmental Studies'];
+    const subjects = ['Mathematics', 'Physics', 'Chemistry', 'Environmental Studies', 'Climate Science', 'Biodiversity', 'Sustainable Living', 'Engineering'];
     const subjectPerformance = subjects.map(sub => {
       let total = 0;
       let count = 0;
@@ -115,7 +115,7 @@ export const getTeacherAnalytics = async (req, res) => {
       const avgXP = count > 0 ? (total / count) : 0;
       return { 
         name: sub, 
-        score: Math.min(Math.round((avgXP / 500) * 100), 100) // Normalized to 100
+        score: Math.min(Math.round((avgXP / 500) * 100), 100) 
       };
     });
 
@@ -126,36 +126,36 @@ export const getTeacherAnalytics = async (req, res) => {
     ]);
 
     const participationDist = [
-      { name: 'Quizzes', value: totalQuizzes || 15 },
-      { name: 'Missions', value: totalMissions || 10 },
-      { name: 'Materials', value: students.reduce((acc, s) => acc + (s.level * 2), 0) || 25 }
+      { name: 'Quizzes', value: totalQuizzes },
+      { name: 'Missions', value: totalMissions },
+      { name: 'Materials', value: students.reduce((acc, s) => acc + (s.level * 2), 0) }
     ];
 
     // 3. Class Skill Matrix (0-100 Averages)
     const matrix = [
       { 
         subject: 'Speed', 
-        A: Math.min(Math.round((students.reduce((acc, s) => acc + (s.level), 0) / (totalStudents * 10)) * 100), 100) || 75, 
+        A: totalStudents > 0 ? Math.min(Math.round((students.reduce((acc, s) => acc + (s.level), 0) / (totalStudents * 10)) * 100), 100) : 0, 
         fullMark: 100 
       },
       { 
         subject: 'Accuracy', 
-        A: Math.min(Math.round((students.reduce((acc, s) => acc + (s.xp % 100), 0) / (totalStudents * 100)) * 100) + 60, 100) || 85, 
+        A: totalStudents > 0 ? Math.min(Math.round((students.reduce((acc, s) => acc + (s.xp % 100), 0) / (totalStudents * 100)) * 100), 100) : 0, 
         fullMark: 100 
       },
       { 
         subject: 'Consistency', 
-        A: Math.min(Math.round((students.reduce((acc, s) => acc + (s.streak), 0) / (totalStudents * 30)) * 100) + 40, 100) || 65, 
+        A: totalStudents > 0 ? Math.min(Math.round((students.reduce((acc, s) => acc + (s.streak), 0) / (totalStudents * 30)) * 100), 100) : 0, 
         fullMark: 100 
       },
       { 
         subject: 'Eco Impact', 
-        A: Math.min(Math.round((students.reduce((acc, s) => acc + (s.ecoXp || 0), 0) / (totalStudents * 1000)) * 100), 100) || 80, 
+        A: totalStudents > 0 ? Math.min(Math.round((students.reduce((acc, s) => acc + (s.ecoXp || 0), 0) / (totalStudents * 1000)) * 100), 100) : 0, 
         fullMark: 100 
       },
       { 
         subject: 'Academic', 
-        A: Math.min(Math.round((students.reduce((acc, s) => acc + (s.eduXp || 0), 0) / (totalStudents * 1000)) * 100), 100) || 70, 
+        A: totalStudents > 0 ? Math.min(Math.round((students.reduce((acc, s) => acc + (s.eduXp || 0), 0) / (totalStudents * 1000)) * 100), 100) : 0, 
         fullMark: 100 
       },
     ];
@@ -165,7 +165,7 @@ export const getTeacherAnalytics = async (req, res) => {
       participationDist,
       skillMatrix: matrix,
       summary: {
-        avgLevel: (students.reduce((acc, s) => acc + s.level, 0) / totalStudents).toFixed(1),
+        avgLevel: totalStudents > 0 ? (students.reduce((acc, s) => acc + s.level, 0) / totalStudents).toFixed(1) : 0,
         totalXP: students.reduce((acc, s) => acc + s.xp, 0),
         topPerformer: students.sort((a,b) => b.xp - a.xp)[0]?.name || 'N/A'
       }
