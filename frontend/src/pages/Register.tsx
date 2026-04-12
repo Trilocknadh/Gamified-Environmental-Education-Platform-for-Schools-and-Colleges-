@@ -137,14 +137,14 @@ const Register = () => {
                  </div>
               </div>
 
-              {/* Admin Security PIN - Conditional */}
-              {formData.role === 'Admin' && (
+              {/* Security PIN - Conditional (Admin & Teacher) */}
+              {(formData.role === 'Admin' || formData.role === 'Teacher') && (
                 <motion.div 
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   className="space-y-1"
                 >
-                  <label className={labelClasses}>Admin Security PIN (6 Digits)</label>
+                  <label className={labelClasses}>{formData.role} Security PIN (6 Digits)</label>
                   <div className="relative">
                     <Shield className="absolute left-4 top-1/2 -translate-y-1/2 text-amber-500" size={18} />
                     <input
@@ -157,7 +157,7 @@ const Register = () => {
                       onChange={(e) => setFormData({ ...formData, adminPin: e.target.value.replace(/\D/g, '') })}
                     />
                   </div>
-                  <p className="text-[9px] text-amber-500/70 font-bold uppercase tracking-widest ml-1">Required for Admin verification</p>
+                  <p className="text-[9px] text-amber-500/70 font-bold uppercase tracking-widest ml-1">Required for {formData.role} verification</p>
                 </motion.div>
               )}
 

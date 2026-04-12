@@ -82,6 +82,12 @@ const Quiz = () => {
   };
 
   const startQuiz = (quiz: any) => {
+    if (quiz.completed) {
+      toast.success('You have already mastered this module! Feel free to review the content.', { icon: '🎓' });
+      // We still let them "start" it if they want to review, OR we can block it.
+      // The user said "did not want access completed quizzes", so I will block it.
+      return;
+    }
     setCurrentQuiz(quiz);
     setCurrentQuestionIndex(0);
     setScore(0);
@@ -225,30 +231,45 @@ const Quiz = () => {
         <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{quizzes.length} Available</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {quizzes.map((quiz) => (
           <motion.div
             key={quiz._id}
             whileHover={{ scale: 1.02 }}
-            className="glass-card p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 transition-all cursor-pointer relative group overflow-hidden"
+            className={`glass-card p-6 flex flex-col items-start gap-4 hover:border-emerald-500/30 transition-all cursor-pointer relative group overflow-hidden ${quiz.completed ? 'border-emerald-500/20 bg-emerald-500/[0.02]' : ''}`}
             onClick={() => startQuiz(quiz)}
           >
-            <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-full -mr-12 -mt-12 blur-2xl group-hover:bg-emerald-500/10" />
+            <div className={`absolute top-0 right-0 w-24 h-24 rounded-full -mr-12 -mt-12 blur-2xl transition-all ${quiz.completed ? 'bg-emerald-500/10' : 'bg-emerald-500/5 group-hover:bg-emerald-500/10'}`} />
+            
             <div className="flex justify-between items-start w-full">
-               <div className="p-3 rounded-xl bg-emerald-500/10 text-emerald-400">
-                  <Play size={20} fill="currentColor" />
+               <div className={`p-3 rounded-xl transition-colors ${quiz.completed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-500/10 text-emerald-400'}`}>
+                  {quiz.completed ? <CheckCircle2 size={20} /> : <Play size={20} fill="currentColor" />}
                </div>
-               <span className="text-[10px] font-black bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-yellow-400 uppercase tracking-widest">
-                 {quiz.rewardXP} XP
-               </span>
+               <div className="flex flex-col items-end gap-1">
+                 <span className="text-[10px] font-black bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg text-yellow-400 uppercase tracking-widest">
+                   {quiz.rewardXP} XP
+                 </span>
+                 {quiz.completed && (
+                   <span className="text-[9px] font-black bg-emerald-500 text-slate-950 px-2 py-0.5 rounded uppercase">
+                     Completed • {quiz.previousScore || 0}%
+                   </span>
+                 )}
+               </div>
             </div>
             <div>
               <h4 className="font-bold text-slate-100 text-lg mb-1">{quiz.title}</h4>
               <p className="text-xs text-slate-500 font-medium">{quiz.questions.length} Science-backed MCQs</p>
             </div>
-            <div className="mt-4 flex items-center gap-2 text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
-               Start Challenge <ArrowRight size={12} />
-            </div>
+            
+            {quiz.completed ? (
+              <div className="mt-4 flex items-center gap-2 text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em]">
+                 Review Content <ArrowRight size={12} />
+              </div>
+            ) : (
+              <div className="mt-4 flex items-center gap-2 text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
+                 Start Challenge <ArrowRight size={12} />
+              </div>
+            )}
           </motion.div>
         ))}
       </div>

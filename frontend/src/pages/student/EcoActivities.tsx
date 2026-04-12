@@ -53,6 +53,10 @@ const EcoActivities = () => {
   };
 
   const handleOpenSubmission = (mission: any) => {
+    if (mission.completed) {
+      toast.success('You have already completed this mission! Impact point awarded.', { icon: '🌱' });
+      return;
+    }
     setSelectedMission(mission);
     setImage(null);
     setPreviewUrl(null);
@@ -157,9 +161,16 @@ const EcoActivities = () => {
                 <motion.div
                   key={mission._id}
                   whileHover={{ y: -8 }}
-                  className="glass-card p-8 flex flex-col group hover:border-emerald-500/30 transition-all cursor-pointer bg-emerald-500/5"
+                  className={`glass-card p-8 flex flex-col group transition-all relative overflow-hidden ${
+                    mission.completed 
+                    ? 'border-emerald-500/40 bg-emerald-500/10 cursor-default' 
+                    : 'hover:border-emerald-500/30 cursor-pointer bg-emerald-500/5'
+                  }`}
                   onClick={() => handleOpenSubmission(mission)}
                 >
+                  {mission.completed && (
+                    <div className="absolute top-0 left-0 w-full h-1 bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                  )}
                   <div className="flex justify-between items-start mb-6">
                     <div className="p-3 bg-emerald-500/10 rounded-2xl group-hover:bg-emerald-500/20 transition-colors">
                       <Leaf className="text-emerald-400 w-6 h-6" />
@@ -175,7 +186,11 @@ const EcoActivities = () => {
                     "{mission.description}"
                   </p>
                   <div className="flex items-center text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em] gap-2 mt-auto group-hover:translate-x-2 transition-transform">
-                    Start Mission <ChevronRight size={14} />
+                    {mission.completed ? (
+                      <span className="flex items-center gap-2"><CheckCircle size={14} /> Mission Accomplished</span>
+                    ) : (
+                      <>Start Mission <ChevronRight size={14} /></>
+                    )}
                   </div>
                 </motion.div>
               ))}

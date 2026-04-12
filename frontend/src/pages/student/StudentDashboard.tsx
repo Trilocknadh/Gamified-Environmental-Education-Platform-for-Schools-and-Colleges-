@@ -37,65 +37,35 @@ import api from '../../api/axios';
 
 const StudentDashboard = () => {
   const { user } = useAuthStore();
-  const [stats, setStats] = useState({
-    missionsCount: 0,
-    quizzesCount: 0,
-    totalPoints: 0
-  });
+  const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchDashboardData = async () => {
       try {
-        const [missionsRes, quizzesRes] = await Promise.all([
-          api.get('/submissions/my-submissions'),
-          api.get('/quizzes')
-        ]);
-        
-        setStats({
-          missionsCount: missionsRes.data.filter((s: any) => s.status === 'Approved').length,
-          quizzesCount: user?.badges?.length || 0,
-          totalPoints: user?.xp || 0
-        });
+        const { data } = await api.get('/users/dashboard-stats');
+        setDashboardData(data);
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
       } finally {
         setLoading(false);
       }
     };
-    if (user) fetchStats();
+    if (user) fetchDashboardData();
   }, [user]);
 
-  if (!user || loading) return (
+  if (!user || loading || !dashboardData) return (
     <div className="min-h-screen bg-[#060a16] flex items-center justify-center">
       <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
     </div>
   );
 
-  const nextLevelXP = (user.level || 1) * 1000;
-  const progressPercent = Math.min(((user.xp % nextLevelXP) / nextLevelXP) * 100, 100);
+  const nextLevelXP = dashboardData.level * 1000;
+  const progressPercent = Math.min(((dashboardData.points % nextLevelXP) / nextLevelXP) * 100, 100);
 
-  const performanceData = [
-    { subject: 'Biodiversity', score: 85 },
-    { subject: 'Carbon Cycle', score: 72 },
-    { subject: 'Renewables', score: 94 },
-    { subject: 'Conservation', score: 65 },
-    { subject: 'Climate', score: 88 },
-  ];
-
-  const skillMatrix = [
-    { subject: 'Theory', A: 85, fullMark: 100 },
-    { subject: 'Practical', A: 65, fullMark: 100 },
-    { subject: 'Consistency', A: 90, fullMark: 100 },
-    { subject: 'Innovation', A: 75, fullMark: 100 },
-    { subject: 'Impact', A: 95, fullMark: 100 },
-  ];
-
-  const activityData = [
-    { name: 'Quizzes', value: stats.quizzesCount || 12 },
-    { name: 'Missions', value: stats.missionsCount || 8 },
-    { name: 'Materials', value: 24 },
-  ];
+  const performanceData = dashboardData.performanceData;
+  const skillMatrix = dashboardData.skillMatrix;
+  const activityData = dashboardData.activityData;
 
   const COLORS = ['#10b981', '#3b82f6', '#f59e0b'];
 
@@ -243,7 +213,7 @@ const StudentDashboard = () => {
                </div>
                <h4 className="text-lg font-black text-white italic">Level Up Near!</h4>
                <p className="text-[10px] text-slate-500 mt-3 font-bold uppercase tracking-widest leading-relaxed">
-                 You are just <span className="text-emerald-400">2 missions</span> away from your next evolution phase.
+                 You are just <span className="text-emerald-400">{(nextLevelXP - (dashboardData.points % nextLevelXP)).toLocaleString()} XP</span> away from your next evolution phase.
                </p>
             </div>
           </motion.div>
@@ -393,22 +363,16 @@ const StudentDashboard = () => {
             </div>
 
             <div className="space-y-6">
-               {[
-                 { rank: 1, name: 'Saanvi Mehta', xp: '12,450', active: false },
-                 { rank: 2, name: 'Arjun Singh', xp: '11,200', active: false },
-                 { rank: 3, name: user.name, xp: user.xp.toLocaleString(), active: true },
-                 { rank: 4, name: 'Ishaan Gupta', xp: '9,850', active: false },
-                 { rank: 5, name: 'Diya Rao', xp: '8,400', active: false },
-               ].map((player, idx) => (
-                 <div key={idx} className={`p-4 rounded-2xl flex items-center gap-4 transition-all ${player.active ? 'bg-emerald-500/10 border border-emerald-500/30' : 'bg-white/[0.02] border border-white/5 grayscale hover:grayscale-0'}`}>
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${player.rank <= 3 ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-500'}`}>
-                      {player.rank}
+               {dashboardData.leaderboard.map((player: any, idx: number) => (
+                 <div key={idx} className={`p-4 rounded-2xl flex items-center gap-4 transition-all ${player._id === user._id ? 'bg-emerald-500/10 border border-emerald-500/30' : 'bg-white/[0.02] border border-white/5 grayscale hover:grayscale-0'}`}>
+                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-black text-xs ${idx < 3 ? 'bg-emerald-500 text-slate-950' : 'bg-slate-800 text-slate-500'}`}>
+                      {idx + 1}
                     </div>
                     <div className="flex-grow min-w-0">
-                       <p className={`text-xs font-black truncate ${player.active ? 'text-white' : 'text-slate-400'}`}>{player.name}</p>
-                       <p className="text-[9px] font-bold text-slate-600 mt-0.5 uppercase tracking-tighter">{player.xp} XP Points</p>
+                       <p className={`text-xs font-black truncate ${player._id === user._id ? 'text-white' : 'text-slate-400'}`}>{player.name}</p>
+                       <p className="text-[9px] font-bold text-slate-600 mt-0.5 uppercase tracking-tighter">{player.xp.toLocaleString()} XP Points</p>
                     </div>
-                    {player.active && <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
+                    {player._id === user._id && <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
                  </div>
                ))}
             </div>
