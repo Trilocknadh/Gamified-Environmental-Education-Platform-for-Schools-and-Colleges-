@@ -1,10 +1,21 @@
 import Mission from '../models/Mission.js';
+import Submission from '../models/Submission.js';
 
 // @desc    Get all missions
 // @route   GET /api/missions
 export const getMissions = async (req, res) => {
   try {
-    const missions = await Mission.find({}).sort('-createdAt');
+    let missions = await Mission.find({}).sort('-createdAt').lean();
+
+    // If student, check for approved submissions
+    if (req.user && req.user.role === 'Student') {
+      const submissions = await Submission.find({ userId: req.user._id, status: 'Approved' });
+      missions = missions.map(mission => ({
+        ...mission,
+        completed: submissions.some(s => s.missionId.toString() === mission._id.toString())
+      }));
+    }
+
     res.json(missions);
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -30,9 +30,15 @@ export const registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     let hashedPin = undefined;
-    if (role === 'Admin') {
-      if (!adminPin || adminPin.length !== 6 || isNaN(adminPin)) {
-        return res.status(400).json({ message: 'Admin registration requires a 6-digit PIN' });
+    if (role === 'Admin' || role === 'Teacher') {
+      const requiredPin = role === 'Teacher' ? '013024' : adminPin; // For Teachers, it must be 013024
+      
+      if (role === 'Teacher' && adminPin !== '013024') {
+        return res.status(400).json({ message: 'Teacher registration requires the correct 6-digit PIN' });
+      }
+
+      if (!adminPin || adminPin.length !== 6 || isNaN(Number(adminPin))) {
+        return res.status(400).json({ message: `${role} registration requires a 6-digit PIN` });
       }
       hashedPin = await bcrypt.hash(adminPin, salt);
     }
@@ -90,10 +96,10 @@ export const loginUser = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      // Admin PIN Check
-      if (user.role === 'Admin') {
+      // Security PIN Check (Admin & Teacher)
+      if (user.role === 'Admin' || user.role === 'Teacher') {
         if (!adminPin || !(await bcrypt.compare(adminPin, user.adminPin))) {
-          return res.status(401).json({ message: 'Invalid Admin Security PIN' });
+          return res.status(401).json({ message: `Invalid ${user.role} Security PIN` });
         }
       }
 
