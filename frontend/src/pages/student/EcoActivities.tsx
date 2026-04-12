@@ -214,7 +214,7 @@ const EcoActivities = () => {
                   {mySubmissions.map((sub) => (
                     <div key={sub._id} className="glass-card overflow-hidden group">
                        <div className="relative aspect-video overflow-hidden">
-                          <img src={sub.image.startsWith('http') ? sub.image : `http://localhost:5000/${sub.image}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Proof" />
+                          <img src={sub.image.startsWith('http') ? sub.image : `https://gamified-environmental-education-w0n5.onrender.com/${sub.image}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Proof" />
                           <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5 backdrop-blur-md border ${getStatusColor(sub.status)}`}>
                              {getStatusIcon(sub.status)} {sub.status}
                           </div>

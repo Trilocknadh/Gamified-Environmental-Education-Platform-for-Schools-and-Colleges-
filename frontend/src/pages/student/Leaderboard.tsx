@@ -101,7 +101,7 @@ const Leaderboard = () => {
                      <div className="w-20 h-20 rounded-full border-4 border-slate-400 p-1 mb-2 relative mx-auto overflow-hidden flex items-center justify-center bg-slate-900 border border-slate-700/50">
                         {topUsers[1].avatar ? (
                           <img 
-                             src={topUsers[1].avatar.startsWith('http') ? topUsers[1].avatar : `http://localhost:5000${topUsers[1].avatar}`} 
+                             src={topUsers[1].avatar.startsWith('http') ? topUsers[1].avatar : `https://gamified-environmental-education-w0n5.onrender.com${topUsers[1].avatar}`} 
                              className="w-full h-full rounded-full object-cover" 
                              alt="" 
                           />
@@ -129,7 +129,7 @@ const Leaderboard = () => {
                      <div className="w-24 h-24 rounded-full border-4 border-yellow-500 p-1 mb-3 relative mx-auto shadow-[0_0_30px_rgba(234,179,8,0.3)] overflow-hidden flex items-center justify-center bg-slate-900">
                         {topUsers[0].avatar ? (
                           <img 
-                             src={topUsers[0].avatar.startsWith('http') ? topUsers[0].avatar : `http://localhost:5000${topUsers[0].avatar}`} 
+                             src={topUsers[0].avatar.startsWith('http') ? topUsers[0].avatar : `https://gamified-environmental-education-w0n5.onrender.com${topUsers[0].avatar}`} 
                              className="w-full h-full rounded-full object-cover" 
                              alt="" 
                           />
@@ -158,7 +158,7 @@ const Leaderboard = () => {
                      <div className="w-20 h-20 rounded-full border-4 border-orange-600 p-1 mb-2 relative mx-auto overflow-hidden flex items-center justify-center bg-slate-900">
                         {topUsers[2].avatar ? (
                           <img 
-                             src={topUsers[2].avatar.startsWith('http') ? topUsers[2].avatar : `http://localhost:5000${topUsers[2].avatar}`} 
+                             src={topUsers[2].avatar.startsWith('http') ? topUsers[2].avatar : `https://gamified-environmental-education-w0n5.onrender.com${topUsers[2].avatar}`} 
                              className="w-full h-full rounded-full object-cover" 
                              alt="" 
                           />
@@ -212,7 +212,7 @@ const Leaderboard = () => {
                                  <div className="flex items-center gap-4">
                                     <div className="w-10 h-10 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-center overflow-hidden">
                                        {user.avatar ? (
-                                          <img src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`} className="w-full h-full object-cover opacity-80" alt="" />
+                                          <img src={user.avatar.startsWith('http') ? user.avatar : `${BASE_URL}${user.avatar}`} className="w-full h-full object-cover opacity-80" alt="" />
                                        ) : (
                                           <span className="text-xs font-black text-emerald-500 italic">{user.name.charAt(0)}</span>
                                        )}

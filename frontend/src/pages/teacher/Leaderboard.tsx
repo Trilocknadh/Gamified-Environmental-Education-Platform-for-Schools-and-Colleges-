@@ -105,7 +105,7 @@ const TeacherLeaderboard = () => {
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center bg-slate-900 overflow-hidden">
                       {user.avatar ? (
-                        <img src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`} className="w-full h-full object-cover" alt="" />
+                        <img src={user.avatar.startsWith('http') ? user.avatar : `https://gamified-environmental-education-w0n5.onrender.com${user.avatar}`} className="w-full h-full object-cover" alt="" />
                       ) : (
                         <span className="text-xs font-black text-yellow-500 italic">{user.name.charAt(0)}</span>
                       )}

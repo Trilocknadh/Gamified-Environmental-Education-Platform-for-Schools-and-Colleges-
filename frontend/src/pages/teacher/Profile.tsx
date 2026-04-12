@@ -67,7 +67,7 @@ const TeacherProfile = () => {
               >
                 {user.avatar ? (
                   <img 
-                    src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`} 
+                    src={user.avatar.startsWith('http') ? user.avatar : `https://gamified-environmental-education-w0n5.onrender.com${user.avatar}`} 
                     className="w-full h-full object-cover" 
                     alt="Avatar" 
                   />

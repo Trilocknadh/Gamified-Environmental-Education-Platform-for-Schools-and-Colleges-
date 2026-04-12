@@ -1,7 +1,9 @@
 import axios from 'axios';
+export const BASE_URL = "https://gamified-environmental-education-w0n5.onrender.com";
+
 
 const api = axios.create({
-  baseURL: "https://gamified-environmental-education.onrender.com/api"
+  baseURL: `${BASE_URL}/api`
 });
 
 // Add a request interceptor to attach token
@@ -16,3 +18,4 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
+

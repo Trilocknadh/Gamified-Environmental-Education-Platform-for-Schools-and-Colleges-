@@ -87,7 +87,7 @@ const StudentManagement = () => {
                 <div className="flex items-center gap-4">
                   <div className="w-16 h-16 rounded-2xl bg-slate-900 border border-white/10 p-1 flex items-center justify-center overflow-hidden">
                     {student.avatar ? (
-                      <img src={student.avatar.startsWith('http') ? student.avatar : `http://localhost:5000${student.avatar}`} className="w-full h-full rounded-xl object-cover" alt="" />
+                      <img src={student.avatar.startsWith('http') ? student.avatar : `https://gamified-environmental-education-w0n5.onrender.com${student.avatar}`} className="w-full h-full rounded-xl object-cover" alt="" />
                     ) : (
                       <span className="text-xl font-black text-blue-500 italic">{student.name.charAt(0)}</span>
                     )}

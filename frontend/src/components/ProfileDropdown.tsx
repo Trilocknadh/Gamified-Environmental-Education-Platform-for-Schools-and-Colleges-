@@ -32,7 +32,7 @@ const ProfileDropdown = () => {
         <div className="w-10 h-10 rounded-full border-2 border-emerald-500/30 overflow-hidden group-hover:border-emerald-500 transition-colors bg-slate-800 flex items-center justify-center">
           {user.avatar ? (
             <img 
-              src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`} 
+              src={user.avatar.startsWith('http') ? user.avatar : `https://gamified-environmental-education-w0n5.onrender.com${user.avatar}`} 
               alt="Avatar" 
               className="w-full h-full object-cover"
             />

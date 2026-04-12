@@ -104,7 +104,7 @@ const StudentDashboard = () => {
               <div className="w-28 h-28 rounded-[1.4rem] bg-slate-950 overflow-hidden p-1 border border-white/10 flex items-center justify-center">
                 {user.avatar ? (
                   <img 
-                    src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`} 
+                    src={user.avatar.startsWith('http') ? user.avatar : `https://gamified-environmental-education-w0n5.onrender.com${user.avatar}`} 
                     alt="" 
                     className="w-full h-full object-cover rounded-xl"
                   />

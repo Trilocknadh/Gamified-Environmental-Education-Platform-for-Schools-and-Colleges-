@@ -162,7 +162,7 @@ const Profile = () => {
               >
                 {user.avatar ? (
                   <img 
-                    src={user.avatar.startsWith('http') ? user.avatar : `http://localhost:5000${user.avatar}`} 
+                    src={user.avatar.startsWith('http') ? user.avatar : `https://gamified-environmental-education-w0n5.onrender.com${user.avatar}`} 
                     alt="Avatar" 
                     className="w-full h-full rounded-[2.2rem] object-cover"
                   />

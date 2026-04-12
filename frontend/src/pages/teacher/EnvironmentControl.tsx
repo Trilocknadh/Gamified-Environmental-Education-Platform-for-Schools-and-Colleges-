@@ -124,7 +124,7 @@ const EnvironmentControl = () => {
               <motion.div key={sub._id} layout className="glass-card flex flex-col group overflow-hidden border-white/[0.05]">
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-950">
                   <img 
-                    src={`http://localhost:5000/${sub.image}`} 
+                    src={`https://gamified-environmental-education-w0n5.onrender.com/${sub.image}`} 
                     alt="Proof" 
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
@@ -136,7 +136,7 @@ const EnvironmentControl = () => {
                     <div className="w-10 h-10 rounded-full border border-slate-700 overflow-hidden flex items-center justify-center bg-slate-900 shadow-inner">
                       {sub.userId?.avatar ? (
                         <img 
-                          src={sub.userId.avatar.startsWith('http') ? sub.userId.avatar : `http://localhost:5000${sub.userId.avatar}`} 
+                          src={sub.userId.avatar.startsWith('http') ? sub.userId.avatar : `https://gamified-environmental-education-w0n5.onrender.com${sub.userId.avatar}`} 
                           className="w-full h-full object-cover" 
                           alt="" 
                         />

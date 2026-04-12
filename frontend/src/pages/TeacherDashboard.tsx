@@ -101,7 +101,7 @@ const TeacherDashboard = () => {
                     >
                       <div className="relative aspect-video overflow-hidden bg-slate-950">
                         <img 
-                          src={`http://localhost:5000/${sub.image}`} 
+                          src={`https://gamified-environmental-education-w0n5.onrender.com/${sub.image}`} 
                           alt="Proof" 
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />

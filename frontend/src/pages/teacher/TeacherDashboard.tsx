@@ -129,7 +129,7 @@ const TeacherDashboard = () => {
                     <div className="w-8 h-8 rounded-full border border-white/10 overflow-hidden flex items-center justify-center bg-slate-800">
                       {sub.userId?.avatar ? (
                         <img 
-                          src={sub.userId.avatar.startsWith('http') ? sub.userId.avatar : `http://localhost:5000${sub.userId.avatar}`} 
+                          src={sub.userId.avatar.startsWith('http') ? sub.userId.avatar : `https://gamified-environmental-education-w0n5.onrender.com${sub.userId.avatar}`} 
                           className="w-full h-full object-cover" 
                           alt="" 
                         />
